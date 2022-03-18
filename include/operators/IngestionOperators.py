@@ -139,7 +139,8 @@ class PreProcessDataOperator(BaseOperator):
             record_timestamp = parser.parse(
                                     raw_data[entry][operator.date_field_key]
                                 ).replace(tzinfo=UTC)
-            if record_timestamp > operator.cutoff_timestamp or datetime.min:
+            if record_timestamp > operator.cutoff_timestamp \
+                                if operator.cutoff_timestamp else datetime.min:
                 raw_data[entry]["fingerprint"] = hash_json(raw_data, entry)
                 
                 new_data.append(raw_data[entry])

@@ -17,7 +17,7 @@ timestamp = "{{ ds }}"
 last_success_timestamp = "{{ prev_start_date_success }}"
 endpoints = ["list-sold", "list-for-rent", "list-for-sale"] 
 
-with DAG(dag_id="load_daily_batch_1", 
+with DAG(dag_id="daily_real_estate_api_batch_load", 
     description="Fetch the daily batch of data from the Real Estate API",
     schedule_interval='@daily',
     start_date=datetime(2022, 3, 12, 17, 50, 0),
@@ -25,13 +25,13 @@ with DAG(dag_id="load_daily_batch_1",
     render_template_as_native_obj=True,
     default_args=default_args
 ) as dag:
-    batch_config = Variable.get("real_estate_batch_config", 
+    batch_config = Variable.get("properties_batch_config", 
                                 deserialize_json=True)
 
     start = DummyOperator(task_id="start")
     end = DummyOperator(task_id="end")
 
-    with TaskGroup("ingest_real_estate_data") as ingest_api_data: 
+    with TaskGroup("ingest_property_data") as ingest_api_data: 
         for endpoint in endpoints:
             endpoint_fmt = endpoint.replace("-", "_")
             s3_bucket_key = f"/{timestamp}/{endpoint_fmt}_{timestamp}.json"
