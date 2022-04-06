@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 from pendulum import UTC
 from typing import TYPE_CHECKING, Optional, Sequence
-from io import StringIO, BytesIO
+from io import BytesIO
 from dateutil import parser
 from airflow import AirflowException
 from airflow.models.baseoperator import BaseOperator
@@ -120,7 +120,7 @@ class PreProcessDataOperator(BaseOperator):
             self.bucket_region = s3_bucket_region
             self.bucket_key = s3_bucket_key
 
-    def _load_data_stream(operator, s3_hook, log) -> StringIO:
+    def _load_data_stream(operator, s3_hook, log) -> dict:
         with BytesIO(s3_hook.get_key(
                             key=operator.bucket_key + ".gz",
                             bucket_name=operator.src_bucket
