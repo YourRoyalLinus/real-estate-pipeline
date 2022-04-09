@@ -28,7 +28,7 @@ If you don't have the prerequisites, directions for setup/installation can be fo
 - [Databricks](https://docs.databricks.com/getting-started/index.html)
 - [RapidAPI Registration](https://rapidapi.com/)
 
-The steps will assume use of a local Airflow instance. Uploading a DAG to a hosted instance of Airflow would require a conversation with the person who manages your Airflow environment. 
+Loading the DAG and includes into Airflow will depend on how you've configured your Airflow environment. For a default setup, the simplest way would be to point the `dags_folder` and `plugins_folder` to the local dags/ and include/ folders from this repo. You could also directly copy the `batch_load.py` file into the `dags_folder` of your Airflow configuration and copy the include/ folder into the `plugins_folder` of your Airflow configuration. The location of these folders can be found in your `airflow.cfg` file.
 
 A premium Databricks workspace is required as the Airflow DatabricksSubmitRunOperator executes the task using the Databricks API, which isn't supported by the Community Edition. 
 
